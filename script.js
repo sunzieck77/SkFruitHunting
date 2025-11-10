@@ -1,4 +1,4 @@
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzp1WN50cgX2ypgqR4cR68GgEbfkBMhoWV2A7kzSPoLJuHaOgDYckt3H0fUWtTg0sGK/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxQrxLrSY02FWMbpyi4StdzUH-87RZkyUoLbiu3ohECTKOLVz72z0NO16j8vAb6uyS3/exec';
         
         let currentUser = null;
         let zonesData = [];
@@ -87,16 +87,60 @@
                 }
                 
                 updateLoadingProgress(100);
+                
+                // เพิ่ม transition effect ก่อนซ่อนหน้าโหลด
                 setTimeout(() => {
-                    document.getElementById('loadingScreen').classList.add('hidden');
+                    const loadingScreen = document.getElementById('loadingScreen');
+                    loadingScreen.style.transition = 'opacity 0.5s ease-out, transform 0.5s ease-out';
+                    loadingScreen.style.opacity = '0';
+                    loadingScreen.style.transform = 'scale(1.1)';
+                    
+                    setTimeout(() => {
+                        loadingScreen.classList.add('hidden');
+                        loadingScreen.style.opacity = '1';
+                        loadingScreen.style.transform = 'scale(1)';
+                        
+                        // แสดงหน้า login ด้วย fade-in effect
+                        const loginScreen = document.getElementById('loginScreen');
+                        loginScreen.style.opacity = '0';
+                        loginScreen.style.transform = 'scale(0.9)';
+                        loginScreen.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+                        
+                        setTimeout(() => {
+                            loginScreen.style.opacity = '1';
+                            loginScreen.style.transform = 'scale(1)';
+                        }, 50);
+                    }, 500);
                 }, 500);
                 
                 isDataLoaded = true;
             } catch (error) {
                 console.error('Error preloading data:', error);
                 updateLoadingProgress(100);
+                
+                // เพิ่ม transition effect แม้เกิด error
                 setTimeout(() => {
-                    document.getElementById('loadingScreen').classList.add('hidden');
+                    const loadingScreen = document.getElementById('loadingScreen');
+                    loadingScreen.style.transition = 'opacity 0.5s ease-out, transform 0.5s ease-out';
+                    loadingScreen.style.opacity = '0';
+                    loadingScreen.style.transform = 'scale(1.1)';
+                    
+                    setTimeout(() => {
+                        loadingScreen.classList.add('hidden');
+                        loadingScreen.style.opacity = '1';
+                        loadingScreen.style.transform = 'scale(1)';
+                        
+                        // แสดงหน้า login ด้วย fade-in effect
+                        const loginScreen = document.getElementById('loginScreen');
+                        loginScreen.style.opacity = '0';
+                        loginScreen.style.transform = 'scale(0.9)';
+                        loginScreen.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+                        
+                        setTimeout(() => {
+                            loginScreen.style.opacity = '1';
+                            loginScreen.style.transform = 'scale(1)';
+                        }, 50);
+                    }, 500);
                 }, 1000);
             }
         }
@@ -107,6 +151,9 @@
 
         // เริ่มโหลดข้อมูลทันทีที่หน้าเว็บโหลด
         document.addEventListener('DOMContentLoaded', () => {
+            // เพิ่มคลาสหน้าล็อกอิน
+            document.body.classList.add('login-page');
+            
             preloadAllData();
             
             // ปิดเมนูเมื่อคลิกนอกพื้นที่
@@ -162,16 +209,17 @@
                 html: `
                     <div class="text-left space-y-3">
                         <div class="bg-purple-50 p-4 rounded-lg">
-                            <p class="text-sm mb-2"><strong>📧 อีเมล:</strong></p>
-                            <p class="text-sm text-gray-700">admin@example.com</p>
-                        </div>
-                        <div class="bg-blue-50 p-4 rounded-lg">
-                            <p class="text-sm mb-2"><strong>📱 โทรศัพท์:</strong></p>
-                            <p class="text-sm text-gray-700">02-XXX-XXXX</p>
+                            <p class="text-sm mb-2"><strong>👨‍🏫 ครูผู้ดูแล:</strong></p>
+                            <p class="text-sm text-gray-700">นายวัชรพล แสงจันทร์ (ครูเอไอ)</p>
+                            <p class="text-sm text-gray-700">นายกุมภาพันธ์ สิงห์โต (ครูเอไอ)</p>
                         </div>
                         <div class="bg-green-50 p-4 rounded-lg">
                             <p class="text-sm mb-2"><strong>🏫 สถานที่:</strong></p>
-                            <p class="text-sm text-gray-700">โรงเรียน/สถาบัน</p>
+                            <p class="text-sm text-gray-700">โรงเรียนสกลวิทยา แผนกมัธยม</p>
+                        </div>
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <p class="text-sm mb-2"><strong>📱 เบอร์โทรศัพท์:</strong></p>
+                            <p class="text-sm text-gray-700">061-527-4901</p>
                         </div>
                     </div>
                 `,
@@ -185,16 +233,15 @@
             const formData = new FormData();
             formData.append('action', action);
             formData.append('newData', JSON.stringify(data));
-            console.log("HERE",JSON.stringify(data));
+            console.log("HERE", JSON.stringify(data));
             let lastError = null;
 
-
             try {
-            const response = await fetch(SCRIPT_URL, {
-                method: 'POST',
-                body: formData,
-                mode: 'cors', // ป้องกัน CORS block
-            });
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: formData,
+                    mode: 'cors', // ป้องกัน CORS block
+                });
 
                 // ถ้า response error เช่น 404 / 500
                 if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
@@ -216,23 +263,10 @@
                     throw new Error(result.message || 'เกิดข้อผิดพลาดจากฝั่งเซิร์ฟเวอร์');
                 }
 
-                } catch (err) {
+            } catch (err) {
                 lastError = err;
                 console.warn(`ลองเชื่อมต่อไม่ได้กับ ${SCRIPT_URL}:`, err.message);
-                await new Promise(r => setTimeout(r, 800)); // รอ 0.8 วิ แล้วลอง URL ถัดไป
-                }
-            }
-
-            throw lastError || new Error('เชื่อมต่อกับเซิร์ฟเวอร์ไม่สำเร็จ');
-            /**
-             * ตัวอย่างการใช้งาน
-             */
-            async function testConnection() {
-            try {
-                const response = await sendToGoogleSheets('getZones');
-                console.log('✅ ดึงข้อมูลสำเร็จ:', response);
-            } catch (err) {
-                console.error('❌ เชื่อมต่อไม่ได้:', err);
+                throw new Error(err.message || 'ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้');
             }
         }
 
@@ -337,6 +371,9 @@
         }
 
         async function showGameScreen() {
+            // เปลี่ยนพื้นหลังเป็นหน้าเกม
+            document.body.classList.remove('login-page');
+            
             document.getElementById('loginScreen').classList.add('hidden');
             document.getElementById('aboutButton').classList.add('hidden');
             document.getElementById('gameScreen').classList.remove('hidden');
@@ -930,6 +967,10 @@
         function handleLogout() {
             currentUser = null;
             devMode = false;
+            
+            // เปลี่ยนกลับเป็นพื้นหลังหน้าล็อกอิน
+            document.body.classList.add('login-page');
+            
             document.getElementById('gameScreen').classList.add('hidden');
             document.getElementById('aboutButton').classList.remove('hidden');
             document.getElementById('loginScreen').classList.remove('hidden');
@@ -1238,9 +1279,11 @@
             document.getElementById('teacherScreen').classList.add('hidden');
             
             if (currentUser) {
+                document.body.classList.remove('login-page');
                 document.getElementById('gameScreen').classList.remove('hidden');
                 document.getElementById('aboutButton').classList.add('hidden');
             } else {
+                document.body.classList.add('login-page');
                 document.getElementById('loginScreen').classList.remove('hidden');
                 document.getElementById('aboutButton').classList.remove('hidden');
             }

@@ -9,21 +9,21 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="style.css">
-  <style>
-
-    </style>
   <style>@view-transition { navigation: auto; }</style>
  </head>
  <body class="p-4">
   <div id="app" class="max-w-6xl mx-auto"><!-- Loading Screen -->
-   <div id="loadingScreen" class="fixed inset-0 bg-gradient-to-br from-yellow-100 to-orange-100 flex items-center justify-center z-50">
-    <div class="text-center"><img src="https://i.pinimg.com/originals/ab/44/e8/ab44e8b11c0e768b5e60de157117d0e7.gif" alt="Loading" class="w-32 h-32 mx-auto mb-6 object-contain">
+   <div id="loadingScreen" class="fixed inset-0 flex items-center justify-center z-50" style="background-image: url('https://raw.githubusercontent.com/sunzieck77/ImageFree/refs/heads/main/RomYenBg.png'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+    <div class="absolute inset-0 bg-white opacity-30 backdrop-blur-sm"></div>
+    <div class="text-center relative z-10"><img src="https://i.pinimg.com/originals/ab/44/e8/ab44e8b11c0e768b5e60de157117d0e7.gif" alt="Loading" class="w-32 h-32 mx-auto mb-6 object-contain">
      <div class="loader mb-4"></div>
-     <p class="text-gray-800 text-2xl font-bold">กำลังโหลด... <span id="loadingPercent">0</span>%</p>
+     <div class="bg-white bg-opacity-90 backdrop-blur-md px-8 py-4 rounded-2xl shadow-2xl border-4 border-purple-400">
+      <p class="text-purple-700 text-2xl font-bold">กำลังโหลด... <span id="loadingPercent">0</span>%</p>
+     </div>
     </div>
    </div><!-- About Button (only on login screen) -->
    <div id="aboutButton" class="fixed top-4 right-4 z-50"><button onclick="toggleAboutMenu()" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-full shadow-lg transition"> ℹ️ เกี่ยวกับ </button> <!-- About Menu Dropdown -->
-    <div id="aboutMenu" class="hidden absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl border-2 border-purple-200 overflow-hidden"><button onclick="showHowToPlay()" class="w-full text-left px-4 py-3 hover:bg-purple-50 transition border-b border-gray-200 flex items-center gap-2"> <span class="text-xl">📖</span> <span class="font-semibold">วิธีเล่นกิจกรรม</span> </button> <button onclick="showContact()" class="w-full text-left px-4 py-3 hover:bg-purple-50 transition border-b border-gray-200 flex items-center gap-2"> <span class="text-xl">📞</span> <span class="font-semibold">ติดต่อผู้ดูแล</span> </button> <button onclick="showTeacherLogin()" class="w-full text-left px-4 py-3 hover:bg-purple-50 transition flex items-center gap-2"> <span class="text-xl">👨‍🏫</span> <span class="font-semibold">สำหรับครู</span> </button> </button> <button onclick="testConnection()" class="w-full text-left px-4 py-3 hover:bg-purple-50 transition flex items-center gap-2"> <span class="text-xl">🔗</span> <span class="font-semibold">เชื่อมต่อ</span> </button>  
+    <div id="aboutMenu" class="hidden absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl border-2 border-purple-200 overflow-hidden"><button onclick="showHowToPlay()" class="w-full text-left px-4 py-3 hover:bg-purple-50 transition border-b border-gray-200 flex items-center gap-2"> <span class="text-xl">📖</span> <span class="font-semibold">วิธีเล่นกิจกรรม</span> </button> <button onclick="showContact()" class="w-full text-left px-4 py-3 hover:bg-purple-50 transition border-b border-gray-200 flex items-center gap-2"> <span class="text-xl">📞</span> <span class="font-semibold">ติดต่อผู้ดูแล</span> </button> <button onclick="showTeacherLogin()" class="w-full text-left px-4 py-3 hover:bg-purple-50 transition flex items-center gap-2"> <span class="text-xl">👨‍🏫</span> <span class="font-semibold">สำหรับครู</span> </button>
     </div>
    </div><!-- Login/Register Screen -->
    <div id="loginScreen" class="glass-card p-8 max-w-md mx-auto mt-20">
@@ -247,7 +247,7 @@
     </div>
    </div>
   </div>
-  <script src="script.js"></script>
 
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99c24f27f3502dc4',t:'MTc2Mjc0MzcyNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+  <script src="script.js"></script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99c420a1113ca62b',t:'MTc2Mjc2Mjc5My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
