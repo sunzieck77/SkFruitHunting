@@ -1,4 +1,4 @@
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxQrxLrSY02FWMbpyi4StdzUH-87RZkyUoLbiu3ohECTKOLVz72z0NO16j8vAb6uyS3/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzp1WN50cgX2ypgqR4cR68GgEbfkBMhoWV2A7kzSPoLJuHaOgDYckt3H0fUWtTg0sGK/exec';
         
         let currentUser = null;
         let zonesData = [];
