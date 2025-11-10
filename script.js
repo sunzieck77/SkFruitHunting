@@ -181,36 +181,59 @@
             });
         }
 
-        function sendToGoogleSheets(action, data) {
-            return new Promise((resolve, reject) => {
-                const callbackName = 'jsonpCallback_' + Date.now();
-                
-                window[callbackName] = function(response) {
-                    delete window[callbackName];
-                    document.body.removeChild(script);
-                    
-                    if (response.status === 'success') {
-                        resolve(response);
-                    } else {
-                        reject(new Error(response.message || 'เกิดข้อผิดพลาด'));
-                    }
-                };
+        async function sendToGoogleSheets(action, data = {}) {
+            const formData = new FormData();
+            formData.append('action', action);
+            formData.append('newData', JSON.stringify(data));
+            console.log("HERE",JSON.stringify(data));
+            let lastError = null;
 
-                const params = new URLSearchParams({
-                    action: action,
-                    callback: callbackName,
-                    data: JSON.stringify(data)
-                });
 
-                const script = document.createElement('script');
-                script.src = `${SCRIPT_URL}?${params.toString()}`;
-                script.onerror = () => {
-                    delete window[callbackName];
-                    reject(new Error('ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้'));
-                };
-                
-                document.body.appendChild(script);
+            try {
+            const response = await fetch(SCRIPT_URL, {
+                method: 'POST',
+                body: formData,
+                mode: 'cors', // ป้องกัน CORS block
             });
+
+                // ถ้า response error เช่น 404 / 500
+                if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+
+                const text = await response.text();
+
+                // พยายามแปลงเป็น JSON
+                let result;
+                try {
+                    result = JSON.parse(text);
+                } catch {
+                    result = { status: 'error', message: 'รูปแบบข้อมูลตอบกลับไม่ถูกต้อง' };
+                }
+
+                // ตรวจสอบผลลัพธ์
+                if (result.status === 'success') {
+                    return result;
+                } else {
+                    throw new Error(result.message || 'เกิดข้อผิดพลาดจากฝั่งเซิร์ฟเวอร์');
+                }
+
+                } catch (err) {
+                lastError = err;
+                console.warn(`ลองเชื่อมต่อไม่ได้กับ ${SCRIPT_URL}:`, err.message);
+                await new Promise(r => setTimeout(r, 800)); // รอ 0.8 วิ แล้วลอง URL ถัดไป
+                }
+            }
+
+            throw lastError || new Error('เชื่อมต่อกับเซิร์ฟเวอร์ไม่สำเร็จ');
+            /**
+             * ตัวอย่างการใช้งาน
+             */
+            async function testConnection() {
+            try {
+                const response = await sendToGoogleSheets('getZones');
+                console.log('✅ ดึงข้อมูลสำเร็จ:', response);
+            } catch (err) {
+                console.error('❌ เชื่อมต่อไม่ได้:', err);
+            }
         }
 
         function showLoginForm() {
